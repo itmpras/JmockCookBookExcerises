@@ -14,4 +14,6 @@ public interface Calculator {
    int getOperationId();
 
    int sqrt(int number);
+
+   int subtract(int i, int i1);
 }

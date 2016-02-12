@@ -85,6 +85,7 @@ public class JmockReturnValueTest {
       context.checking(new Expectations() {
          {
             oneOf(calculator).sqrt(with(lessThan(0)));
+
             will(throwException(new RuntimeException("Invalid value")));
          }
       });
