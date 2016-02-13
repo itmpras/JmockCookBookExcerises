@@ -32,4 +32,20 @@ public class Guard {
 
         executor.execute(ringAlarmTask);
     }
+
+    public void stopAlarmTask() throws InterruptedException {
+        Runnable snoozeAlarm = new Runnable() {
+            public void run() {
+                alarm.snooze();
+
+            }
+        };
+
+
+        Thread thread = new Thread(snoozeAlarm);
+        thread.start();
+        // Need this join to synchronize Test thread with Test Thread
+        // TODO to remove this.
+        thread.join();
+    }
 }
