@@ -3,6 +3,7 @@ package com.prasanna.jmockcookbook;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by prasniths on 13/02/16.
@@ -11,11 +12,12 @@ public class Guard {
 
     final Alarm alarm;
     final Executor executor;
-    int intrusionCount;
+    AtomicInteger intrusionCount;
 
     public Guard(Alarm alarm, Executor executor) {
         this.alarm = alarm;
         this.executor = executor;
+        intrusionCount = new AtomicInteger(0);
     }
 
     public void notice(Burgler burgler) {
@@ -48,10 +50,10 @@ public class Guard {
     }
 
     public void intrusionDetected() {
-        intrusionCount++;
+        intrusionCount.incrementAndGet();
     }
 
     public int getIntrusionCount() {
-        return intrusionCount;
+        return intrusionCount.get();
     }
 }
