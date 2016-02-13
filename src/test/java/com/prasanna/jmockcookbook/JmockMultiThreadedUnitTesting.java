@@ -5,11 +5,10 @@ import org.jmock.Mockery;
 import org.jmock.lib.concurrent.DeterministicExecutor;
 import org.junit.Test;
 
-import java.util.concurrent.Executor;
-
 /**
  * Created by prasniths on 13/02/16.
  */
+// Unit Test executing concurrent task
 public class JmockMultiThreadedUnitTesting {
     Mockery context = new Mockery();
 
