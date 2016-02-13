@@ -11,6 +11,7 @@ public class Guard {
 
     final Alarm alarm;
     final Executor executor;
+    int intrusionCount;
 
     public Guard(Alarm alarm, Executor executor) {
         this.alarm = alarm;
@@ -44,5 +45,13 @@ public class Guard {
 
         Thread thread = new Thread(snoozeAlarm);
         thread.start();
+    }
+
+    public void intrusionDetected() {
+        intrusionCount++;
+    }
+
+    public int getIntrusionCount() {
+        return intrusionCount;
     }
 }
