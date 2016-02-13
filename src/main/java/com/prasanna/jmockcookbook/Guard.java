@@ -44,8 +44,5 @@ public class Guard {
 
         Thread thread = new Thread(snoozeAlarm);
         thread.start();
-        // Need this join to synchronize Test thread with Test Thread
-        // TODO to remove this.
-        thread.join();
     }
 }

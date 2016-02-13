@@ -2,9 +2,12 @@ package com.prasanna.jmockcookbook;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.jmock.States;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.internal.State;
 import org.jmock.lib.concurrent.DeterministicExecutor;
 import org.jmock.lib.concurrent.Synchroniser;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -12,12 +15,20 @@ import org.junit.Test;
  */
 public class JmockUsingSynchronizer {
     Mockery context = new Mockery();
+    private Synchroniser threadingPolicy = new Synchroniser();
     Mockery threadSafeContext = new JUnit4Mockery() {
         {
-            setThreadingPolicy(new Synchroniser());
+            setThreadingPolicy(threadingPolicy);
         }
     };
 
+    States states;
+
+    @Before
+    public void setUp() throws Exception {
+        states = threadSafeContext.states("alarmState").startsAs("Intial");
+
+    }
 
     @Test
     // Test failing because mock is used by multiple thread
@@ -38,10 +49,13 @@ public class JmockUsingSynchronizer {
         context.checking(new Expectations() {
             {
                 oneOf(alarm).snooze();
+                when(states.is("Intial"));
+                then(states.is("snoozed"));
             }
         });
 
         guard.stopAlarmTask();
+        threadingPolicy.waitUntil(states.is("snoozed"), 1000);
         context.assertIsSatisfied();
     }
 }
