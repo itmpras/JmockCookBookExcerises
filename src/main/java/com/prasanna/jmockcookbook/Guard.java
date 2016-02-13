@@ -12,18 +12,16 @@ public class Guard {
     final Alarm alarm;
     final Executor executor;
 
-    public Guard(Alarm alarm) {
+    public Guard(Alarm alarm, Executor executor) {
         this.alarm = alarm;
-        this.executor = Executors.newSingleThreadExecutor();
+        this.executor = executor;
     }
 
     public void notice(Burgler burgler) {
-
-        executor.execute(startAlarmTask());
-
+        startAlarmTask();
     }
 
-    private Runnable startAlarmTask() {
+    private void startAlarmTask() {
         Runnable ringAlarmTask = new Runnable() {
             public void run() {
                 for (int i = 0; i < 10; i++) {
@@ -32,6 +30,6 @@ public class Guard {
             }
         };
 
-        return ringAlarmTask;
+        executor.execute(ringAlarmTask);
     }
 }
